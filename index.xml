@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vladislav Matelski</title>
+    <link>https://vladds.com/</link>
+    <description>Recent content on Vladislav Matelski</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 04 Apr 2019 22:33:09 +0300</lastBuildDate><atom:link href="https://vladds.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://vladds.com/about/</link>
+      <pubDate>Wed, 24 Jun 2020 23:31:28 -0500</pubDate>
+      
+      <guid>https://vladds.com/about/</guid>
+      <description>I&amp;rsquo;m technically savvy and ambitious Mobile Developer offering 12+ years in the IT industry.
+Proven ability to design, develop and maintain Android applications in close cooperation with business and technical specialists. Proven track record leading development teams up to 19 engineers Versatile experience bringing into life software architecture created by myself and by others, and working with power business users to create robust and efficient solutions. Strong analytical and technical skills and extensive experience in the software development of mobile applications using object-oriented methodologies and advanced tools Client projects include electronic trading platform provider, mobile security platform provider, leading media owners, provider of technical information and knowledge solutions for the automotive service </description>
+    </item>
+    
+    <item>
+      <title>Recycler View</title>
+      <link>https://vladds.com/posts/recycler-view.ru/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/posts/recycler-view.ru/</guid>
+      <description>RecyclerView можно назвать современными стандартом реализации списков. Задумывались ли Вы о том, через какие этапы проходят элементы списка до того как пользователь их увидят на экране? В рамках доклада я расскажу о строение RecyclerView и принципах его работы.
+Слайды к докладу</description>
+    </item>
+    
+    <item>
+      <title>Approach of writing NPE-safe code in java applications</title>
+      <link>https://vladds.com/posts/nullability/</link>
+      <pubDate>Wed, 24 Jun 2015 23:45:25 +0300</pubDate>
+      
+      <guid>https://vladds.com/posts/nullability/</guid>
+      <description>I. Introduction Complexity of developed systems is growing as well as complexity of goals they are intended to achieve. One of factors that make systems more complex is that the same development tools are used for their creation. Abstraction level of problems to be solved is growing faster than the abstractions that programming languages provide. This difference makes coding process more vulnerable to human factor related mistakes. Therefore the better development tools or modification of development methods are needed.</description>
+    </item>
+    
+  </channel>
+</rss>

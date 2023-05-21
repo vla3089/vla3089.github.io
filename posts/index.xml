@@ -1,0 +1,206 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Posts on Vladislav Matelski</title>
+		<link>https://vladds.com/posts/</link>
+		<description>Recent content in Posts on Vladislav Matelski</description>
+		<generator>Hugo -- gohugo.io</generator>
+		<language>en-us</language>
+		<copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+		<lastBuildDate>Thu, 04 Apr 2019 22:33:09 +0300</lastBuildDate>
+		<atom:link href="https://vladds.com/posts/index.xml" rel="self" type="application/rss+xml" />
+		
+		<item>
+			<title>Recycler View</title>
+			<link>https://vladds.com/posts/recycler-view.ru/</link>
+			<pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+			
+			<guid>https://vladds.com/posts/recycler-view.ru/</guid>
+			<description>RecyclerView можно назвать современными стандартом реализации списков. Задумывались ли Вы о том, через какие этапы проходят элементы списка до того как пользователь их увидят на экране? В рамках доклада я расскажу о строение RecyclerView и принципах его работы.
+Слайды к докладу</description>
+			<content type="html"><![CDATA[<p>RecyclerView можно назвать современными стандартом реализации списков. Задумывались ли Вы о том, через какие этапы проходят элементы списка до того как пользователь их увидят на экране? В рамках доклада я расскажу о строение RecyclerView и принципах его работы.</p>
+<p><a href="https://speakerdeck.com/vmatelski/recycler-view">Слайды к докладу</a></p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/Ooc7MDhgJXU" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+]]></content>
+		</item>
+		
+		<item>
+			<title>Approach of writing NPE-safe code in java applications</title>
+			<link>https://vladds.com/posts/nullability/</link>
+			<pubDate>Wed, 24 Jun 2015 23:45:25 +0300</pubDate>
+			
+			<guid>https://vladds.com/posts/nullability/</guid>
+			<description>I. Introduction Complexity of developed systems is growing as well as complexity of goals they are intended to achieve. One of factors that make systems more complex is that the same development tools are used for their creation. Abstraction level of problems to be solved is growing faster than the abstractions that programming languages provide. This difference makes coding process more vulnerable to human factor related mistakes. Therefore the better development tools or modification of development methods are needed.</description>
+			<content type="html"><![CDATA[<h2 id="i-introduction">I. Introduction</h2>
+<p>Complexity of developed systems is growing as well as complexity of goals they are intended to achieve. One of factors that make systems more complex is that the same development tools are used for their creation. Abstraction level of problems to be solved is growing faster than the abstractions that programming languages provide. This difference makes coding process more vulnerable to human factor related mistakes. Therefore the better development tools or modification of development methods are needed.
+In some spheres the importance of error may cost the earth. The error may lead to deaths of people or to crashing of highly expensive scientific machines. For example the catastrophe Ariane 5, that happened June 4 1996. According to the prof. Jacques-Louis Lions<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, the reason of the catastrophe was a mistake in software that occurred at boundary values.</p>
+<p>To minimize the probability of errors checking of software reliability should be performed for all stages of system creation. If human performs verification, the chance of human-factor related mistake still exists. Instead of humans it&rsquo;s possible to rely on automated tools that check different aspects of systems under development.
+This article provides a way to prevent NPE using set of simple rules and agreements during development process.</p>
+<h2 id="ii-reasons-of-npe">II. Reasons of NPE</h2>
+<p>At first definition of NPE has to be provided. NPE is an abbreviation of “null pointer exception”. Where pointers are links to memory that application uses to store own data. These links are commonly known as variables. The variables point to application memory or to a “null area”. If a variable points to the “null area” it means that this variable specifies no data application can use. Since this variables contains no data attempts to obtain data from them are exceptions.
+If application tries accessing objects by null pointer NPE occurs and this cases may be threated as breach of interaction contract: the null pointer occurs in a place where null pointer shouldn’t be. Such contract e.g. is a set of input and output parameter. In programming languages it&rsquo;s a set of typed input/output values. Passing null pointer in function that don&rsquo;t expect it is a breach of interaction contract. Let&rsquo;s take a look at the following function:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Complex</span> <span class="nf">sum</span><span class="o">(</span><span class="n">Complex</span> <span class="n">a</span><span class="o">,</span> <span class="n">Complex</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The goal of that function is to sum two complex numbers. Thereby, the function takes two complex values. But it&rsquo;s also possible to pass null pointers instead of certain parameters. It&rsquo;s not contrary to java specification, but it imposes an implicit restriction on the implementation. The implementation must take into account the fact that any of the parameters can be null pointer.</p>
+<p>On the other hand the function is responsible for addition of two complex values while NULL is not a complex value, therefore passing it is the breach of interaction contract.</p>
+<p>To be sure that NPE is impossible it&rsquo;s needed to analyze the whole code to check whether the variables are initialized correctly and none of computations produces null. And places where null pointers are possible are the places of potential NPE. Lots of condition checks make difficult looking through the code to understand it and to find other mistakes. Furthermore, as it was described above, java compiler allows passing nulls instead of objects everywhere. Such assumption can leads to a situation when changed code produces null pointer and pass it to other one that crash the application with NPE. Compiler says nothing about it despite the fact that it&rsquo;s breach of interaction contract. In other word modules may lose consistency silently. And because NPEs are produced in some use cases only, the investigation of them become more difficult.</p>
+<h2 id="iii-ways-of-npe-minimization">III. Ways of NPE minimization</h2>
+<p>As it was described above NPEs occur when the interaction contracts are breached. Compiler does not detect situations of that kind, therefore there is not warranty that contracts in the whole system are consistent. To prove that additional analysis works are needed. The most logical way is to check consistence during the build process. And if such error is found the build process should be stopped.</p>
+<p>todo: reliability</p>
+<p>Fig. 1. Dependency of issue fixing cost from the time when the issue is detected <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<p>Detection of contract beach during the build step doesn&rsquo;t allow forward movement of product until issues are not fixed.</p>
+<p>Which means that this kind of issues will be fixed during testing process, because testing process goes afterwards. Therefore tests will be performed on consistent modules.
+Such way allows detecting issue earlier, and the earlier issue is detected the less money fix costs. This relationship is shown in fig. 1.</p>
+<p>todo: probability</p>
+<p>Fig. 2. Probability of applying correct issue fix during the application lifetime</p>
+<p>Additional checks of contract consistency allows to detect issue earlier, therefore fixing of it will cost less money. And from the right graph follows that the probability of detection becomes higher.</p>
+<p>The most reliable way of preventing issue is to prevent the possibility of occurring issues of that kind. For instance, there are some languages like Haskell where null pointers absent as a class. Instead of nulls programmers use special type called Maybe. Maybe can take one of two states: Nothing of “Just Value”. Nothing is an equivalent for null.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-haskell" data-lang="haskell"><span class="line"><span class="cl"><span class="kr">data</span> <span class="kt">Maybe</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="n">a</span> <span class="o">|</span> <span class="kt">Nothing</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Ord</span><span class="p">)</span>
+</span></span></code></pre></div><p>Variable of Maybe type clearly specifies that it may obtain no value. So, to get a value programmer have to check whether variable have it. It&rsquo;s semantic approach that helps to differ whether it’s value or maybe it&rsquo;s value. In the second case the check follows from the type.</p>
+<p>One by one other languages implements similar solution. For instance, Scala has Option. Or Kotlin&rsquo;s compiler allows to assign null to variable only if “?” is followed after the type of variable. Let&rsquo;s take a look at example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="k">var</span> <span class="n">a</span><span class="k">:</span> <span class="kt">Int</span>  <span class="c1">// assigning null is forbidden
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">var</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int?</span> <span class="c1">//  possible to assign null
+</span></span></span></code></pre></div><p>These types are not equals therefore compiler checks all assignment operations between them:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scala" data-lang="scala"><span class="line"><span class="cl"><span class="n">b</span> <span class="k">=</span> <span class="n">a</span> <span class="c1">// correct assignment 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">a</span> <span class="k">=</span> <span class="n">b</span> <span class="c1">// type mismatch
+</span></span></span></code></pre></div><p>Such way of defining type of variables allows reducing count of NPEs mostly because of types semantic: the type presupposes that value may be absent and it force programmer to think whether null-available type is needed in certain case. In additional such code is friendlier for verification: it&rsquo;s possible to detect where value-containing check is missing. Because if value-check is not needed it means that type should be strict and doesn&rsquo;t allow to assign nulls.</p>
+<h2 id="iv-implementing-type-maybe-for-java">IV. Implementing Type Maybe for Java</h2>
+<p>Common java library doesn&rsquo;t support semantic difference between null-possible and null-safe types, therefore NPEs occurs. There are several languages that successfully prevents from this kind of issue, so it may be useful to implement similar approach on java. One of the possible implementations is shown in the listing 1.</p>
+<blockquote>
+<p>Listing 1. Implementation of NPE-safe class on Java</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">just</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">JustValue</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">nothing</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">Nothing</span> <span class="o">&lt;</span> <span class="o">&gt;</span> <span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">nullIsNothing</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">nothing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">just</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">boolean</span> <span class="nf">isValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">value</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">or</span><span class="o">(</span><span class="n">T</span> <span class="n">defaultValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">JustValue</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">private</span> <span class="kd">final</span> <span class="n">T</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="nf">JustValue</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValue</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">value</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">or</span><span class="o">(</span><span class="n">T</span> <span class="n">defaultValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Nothing</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValue</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">value</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Trying to obtain value from nothing&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="n">T</span> <span class="nf">or</span><span class="o">(</span><span class="n">T</span> <span class="n">defaultValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">defaultValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Class <code>Maybe&lt;T&gt;</code> encapsulates null check in a way to make variable creation code linear. The example is provided in listing 2.</p>
+<blockquote>
+<p>Listing 2. Example of usage of <code>Maybe&lt;T&gt;</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">defaultString</span> <span class="o">=</span> <span class="s">&#34;Default string&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">withValue</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">nullIsNothing</span><span class="o">(</span><span class="s">&#34;String with value&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Maybe</span> <span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">nothing</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">nothing</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;with value \&#34;%s\&#34;\n&#34;</span><span class="o">,</span> <span class="n">withValue</span><span class="o">.</span><span class="na">value</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// System.out.printf(&#34;with value \&#34;%s\&#34;\n&#34;, nothing.value()); // throws an exception if uncomment
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;or() for string with value \&#34;%s\&#34;\n&#34;</span><span class="o">,</span> <span class="n">withValue</span><span class="o">.</span><span class="na">or</span><span class="o">(</span><span class="n">defaultString</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;or() for nothing. Should return default string: \&#34;%s\&#34;&#34;</span><span class="o">,</span> <span class="n">nothing</span><span class="o">.</span><span class="na">or</span><span class="o">(</span><span class="n">defaultString</span><span class="o">));</span>
+</span></span></code></pre></div><p>As it&rsquo;s shown in listing creation code is linear, and if it&rsquo;s needed to get value if it exists or default value otherwise it&rsquo;s possible to use method or(). And to obtain certain value programmer have to check whether value exists using method isValue().</p>
+<h2 id="v-comparison-with-alternatives">V. Comparison with alternatives</h2>
+<p>Java provides different ways of handling null variables. For example Listing 3 provides comparison with null implementation and listing 4 shows how to handle NPE using try\catch.</p>
+<blockquote>
+<p>Listing 3. Using comparison with null to check if variable is null</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">printIfValue</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span> <span class="k">if</span> <span class="o">(</span><span class="n">str</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;value: %s\n&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">);</span> <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;no value defined\n&#34;</span><span class="o">);</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><blockquote>
+<p>Listing 4. Using try\catch to handle NPE if variable is null</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">printIfValue</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;value: %s\n&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NullPointerException</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;no value defined\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>The main feature of comparison with null is that programmers have to remember that variable may be null everywhere they are trying to access it. These approaches don&rsquo;t separate null- possible and variable cannot be null, therefore they presuppose accessing each variable after null check. So, programmers prefer the following compromise: use null check only if variable may be null. But it&rsquo;s necessary to remember that code is changing, therefore variable may become null after some time and nobody will warns about possible NPEs in this case.</p>
+<p>There is one more approach based on using annotations <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. The approach is provided in listing 5.</p>
+<blockquote>
+<p>Listing 5. Using annotations to specify that function expects not null parameter</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">printIfValue</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;value: %s\n&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>If anybody passes null to such function compiler will generate warning. Such solution is suitable if team is looking through warnings list and fixing them. It allows to pass null as parameter, compile code and perform it.</p>
+<p>The example of function that process Maybe variable is shown in listing 6. Code described in Listing 6 provides following output:</p>
+<ul>
+<li>value: String with value</li>
+<li>no value defined</li>
+</ul>
+<p>During code review places where Maybe variable is not checked is clearly visible that allows</p>
+<blockquote>
+<p>Listing 6. Example of processing Maybe-parameter in function</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">printIfValue</span><span class="o">(</span><span class="n">withValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">printIfValue</span><span class="o">(</span><span class="n">nothing</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printIfValue</span><span class="o">(</span><span class="n">Maybe</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">maybeString</span><span class="o">)</span> <span class="o">{</span> <span class="k">if</span> <span class="o">(</span><span class="n">maybeString</span><span class="o">.</span><span class="na">isValue</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;value: %s\n&#34;</span><span class="o">,</span> <span class="n">maybeString</span><span class="o">.</span><span class="na">value</span><span class="o">());</span> <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;no value defined\n&#34;</span><span class="o">);</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Moreover if the whole team follows the rule “use no nulls in own code”, approach with Maybe introduces compiler check on passing wring parameter. For example, if function expects to get Maybe, programmer can pass Nothing in function. On the other hand if function expects certain type and passing null is forbidden, programmer should change the signature of the function. Changing of signature produce a set of compiler errors that indicates breach of interaction contract that should be fixed as well to restore consistency.</p>
+<h2 id="vi-conclusion">VI. Conclusion</h2>
+<p>This article describes the reason why NPE occurs and a way to struggle against it in different programming languages.</p>
+<p>For instance, some programming languages don&rsquo;t use null pointers at all. Other languages require direct specifying that null can be assigned to variable. For other languages like java was introduced similar way of preventing NPE.</p>
+<p>The approach that was described in current article had helped to reduce count of NPE close to 0% during development process one of business applications.</p>
+<p>Ought to remember that java still allows assigning null pointer to variable of Maybe type, but it should be treated as incorrect usage of development methods. Particularly Maybe is intended to change null pointers inside application code under development, therefore null pointers should be changed with <code>Maybe.nothing()</code> as quickly as possible in places of obtaining data places that are out of developer&rsquo;s control like remote sources.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Flight 501 Failure. / Report by the Inquiry Board; Prof.J.L.Lions(on-line). [Accessed on May,31]. Available from: <a href="https://www.ima.umn.edu/~arnold/disasters/ariane5rep.html">https://www.ima.umn.edu/~arnold/disasters/ariane5rep.html</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Software reliability. (on-line). [Accessed on May, 31]. Available from: <a href="http://www.tehprog.ru/index.php_page=lecture13.html">http://www.tehprog.ru/index.php_page=lecture13.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>@Nullable and @NotNull Annotations. (on-line). [Accessed on August, 30]. Available from: <a href="https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html">https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+]]></content>
+		</item>
+		
+	</channel>
+</rss>

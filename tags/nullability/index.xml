@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nullability on Vladislav Matelski</title>
+    <link>https://vladds.com/tags/nullability/</link>
+    <description>Recent content in nullability on Vladislav Matelski</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 24 Jun 2015 23:45:25 +0300</lastBuildDate><atom:link href="https://vladds.com/tags/nullability/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Approach of writing NPE-safe code in java applications</title>
+      <link>https://vladds.com/posts/nullability/</link>
+      <pubDate>Wed, 24 Jun 2015 23:45:25 +0300</pubDate>
+      
+      <guid>https://vladds.com/posts/nullability/</guid>
+      <description>I. Introduction Complexity of developed systems is growing as well as complexity of goals they are intended to achieve. One of factors that make systems more complex is that the same development tools are used for their creation. Abstraction level of problems to be solved is growing faster than the abstractions that programming languages provide. This difference makes coding process more vulnerable to human factor related mistakes. Therefore the better development tools or modification of development methods are needed.</description>
+    </item>
+    
+  </channel>
+</rss>

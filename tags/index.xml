@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Vladislav Matelski</title>
+    <link>https://vladds.com/tags/</link>
+    <description>Recent content in Tags on Vladislav Matelski</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 04 Apr 2019 22:33:09 +0300</lastBuildDate><atom:link href="https://vladds.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>android</title>
+      <link>https://vladds.com/tags/android/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mobilepeople</title>
+      <link>https://vladds.com/tags/mobilepeople/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/mobilepeople/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>recyclerview</title>
+      <link>https://vladds.com/tags/recyclerview/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/recyclerview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>выступления</title>
+      <link>https://vladds.com/tags/%D0%B2%D1%8B%D1%81%D1%82%D1%83%D0%BF%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/%D0%B2%D1%8B%D1%81%D1%82%D1%83%D0%BF%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>https://vladds.com/tags/java/</link>
+      <pubDate>Wed, 24 Jun 2015 23:45:25 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nullability</title>
+      <link>https://vladds.com/tags/nullability/</link>
+      <pubDate>Wed, 24 Jun 2015 23:45:25 +0300</pubDate>
+      
+      <guid>https://vladds.com/tags/nullability/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

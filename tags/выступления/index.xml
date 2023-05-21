@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>выступления on Vladislav Matelski</title>
+    <link>https://vladds.com/tags/%D0%B2%D1%8B%D1%81%D1%82%D1%83%D0%BF%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F/</link>
+    <description>Recent content in выступления on Vladislav Matelski</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 04 Apr 2019 22:33:09 +0300</lastBuildDate><atom:link href="https://vladds.com/tags/%D0%B2%D1%8B%D1%81%D1%82%D1%83%D0%BF%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Recycler View</title>
+      <link>https://vladds.com/posts/recycler-view.ru/</link>
+      <pubDate>Thu, 04 Apr 2019 22:33:09 +0300</pubDate>
+      
+      <guid>https://vladds.com/posts/recycler-view.ru/</guid>
+      <description>RecyclerView можно назвать современными стандартом реализации списков. Задумывались ли Вы о том, через какие этапы проходят элементы списка до того как пользователь их увидят на экране? В рамках доклада я расскажу о строение RecyclerView и принципах его работы.
+Слайды к докладу</description>
+    </item>
+    
+  </channel>
+</rss>
